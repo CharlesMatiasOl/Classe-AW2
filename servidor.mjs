@@ -5,7 +5,7 @@ import fsp from 'node:fs/promises'
 
 // Configuracion
 const PUERTO = 3001
-const raizDelSitio = 'CLASSE-AW2'
+const raizDelSitio = 'recursos'
 
 // Funciones de gestiones de peticiones
 const getionarIndex = (respuesta)=>{
