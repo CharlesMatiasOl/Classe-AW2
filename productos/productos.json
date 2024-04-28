@@ -1,11 +1,24 @@
 {
-    "itens": [
-      "item1",
-      "item2",
-      "item3"
-    ]
-
-
-
-
+  "quadros": [
+    {
+      "nome": "Quadro de Peixe Tropical",
+      "descricao": "Um belo quadro de um peixe tropical nadando em um recife de coral.",
+      "preco": 59.99,
+      "imagem": "./imagenes/pexe1.png"
+    },
+    {
+      "nome": "Quadro de Peixe Dourado",
+      "descricao": "Um elegante quadro retratando um peixe dourado nadando em águas cristalinas.",
+      "preco": 49.99,
+      "imagem": "./imagenes/pexe2.png"
+      
+    },
+    {
+      "nome": "Quadro de Peixe Marinho",
+      "descricao": "Um quadro vibrante mostrando a vida marinha com peixes coloridos em um recife.",
+      "preco": 69.99,
+      "imagem": "./imagenes/pexe3.png"
+      
+    }
+  ]
 }

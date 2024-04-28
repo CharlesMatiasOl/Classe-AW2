@@ -1,25 +1,3 @@
-// function obterProdutos() {
-//     fetch('http://localhost:3001/productos')
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Erro ao obter os produtos');
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             // Aqui você pode fazer o que quiser com os dados dos produtos,
-//             // como exibir na página ou processar de alguma outra forma
-//             console.log('Produtos:', data);
-//         })
-//         .catch(error => {
-//             console.error('Erro ao obter os produtos:', error);
-//         });
-// }
-
-
-
-
-// Função para buscar e exibir os produtos
 async function mostrarProdutos() {
     try {
         const resposta = await fetch('http://localhost:3001/productos');
@@ -27,16 +5,30 @@ async function mostrarProdutos() {
             throw new Error('Erro ao obter os produtos');
         }
         const dados = await resposta.json();
-        const listaProdutos = document.getElementById('lista-produtos');
-        dados.itens.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = item;
-            listaProdutos.appendChild(li);
+        const contenedorProdutos = document.getElementById('contenedor-productos');
+        let conteudoHTML = '';
+        dados.quadros.forEach((quadro, index) => {
+            conteudoHTML += `
+                <article class="productos">
+                    <figure class="productos__fig">
+                        <img src="${quadro.imagem}" alt="${quadro.nome}">
+                    </figure>
+                    <div class="productos__datos">
+                        <h3>${quadro.nome}</h3>
+                        <div>$ ${quadro.preco.toFixed(2)}</div>
+                    </div>
+                    <button class="productos__boton" data-btn-carro data-id="${index}">
+                        <img src="carrito.ico" alt="Icono carrito compras"/> Agregar al carrito
+                    </button>
+                </article>
+            `;
         });
+        contenedorProdutos.innerHTML = conteudoHTML;
     } catch (erro) {
-        console.error('Erro ao buscar os produtos:', erro);
+        console.error('Ocorreu um erro:', erro);
     }
 }
 
-// Chamar a função para buscar e exibir os produtos quando a página carregar
-window.addEventListener('DOMContentLoaded', mostrarProdutos);
+// Chamar a função para exibir os produtos
+mostrarProdutos();
+

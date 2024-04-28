@@ -29,7 +29,7 @@ const servidor = http.createServer(async (requisicao, resposta) => {
         if (requisicao.url === '/' || requisicao.url === '/index.html') {
             caminhoArquivo = path.join(raizDoSite, 'index.html');
         }
-        // Rota para servir o archivo productos.json
+        // Rota para servir o arquivo produtos.json
         else if (requisicao.url === '/productos') {
             caminhoArquivo = path.join(raizDosProdutos, 'productos.json');
         }
@@ -51,4 +51,3 @@ const servidor = http.createServer(async (requisicao, resposta) => {
 servidor.listen(PORTA, () => {
     console.log(`Servidor em execução em http://localhost:${PORTA}`);
 });
-
