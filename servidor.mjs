@@ -1,55 +1,54 @@
-import http from 'node:http'
-import path from 'node:path'
-import {readFile} from 'node:fs'
-import fsp from 'node:fs/promises'
+import http from 'node:http';
+import path from 'node:path';
+import fsp from 'node:fs/promises';
 
-// Configuracion
-const PUERTO = 3001
-const raizDelSitio = 'recursos'
+// Configuração
+const PORTA = 3001;
+const raizDoSite = 'recursos';
+const raizDosProdutos = 'productos';
 
-// Funciones de gestiones de peticiones
-const getionarIndex = (respuesta)=>{
-    const ruta = path.join(raizDelSitio,'index.html')
-    readFile(ruta,(error, datos)=>{
-        if(error){
-            console.log(error)
-            respuesta.statusCode = 500;
-            respuesta.end('Hubo un error en el servidor')
-
-        }else{
-            respuesta.statusCode = 200;
-            respuesta.end(datos)
-        }
-    })
-}
-
-const getionarRecursos = (peticion, respuesta)=>{
-    const ruta = path.join(raizDelSitio,peticion.url)
-    readFile(ruta,(error, datos)=>{
-        if(error){
-            console.log(error)
-            respuesta.statusCode = 404;
-            respuesta.end('recurso no encontrado')
-        }else{
-            respuesta.statusCode = 200;
-            respuesta.end(datos)
-        }
-    })
-}
-const servidor = http.createServer((peticion, respuesta)=>{
-    if(peticion.method === 'GET'){
-        if(peticion.url === '/' || peticion.url === '/index.html'){
-            getionarIndex(respuesta)
-        }else{
-            getionarRecursos(peticion, respuesta);
-        }
-    }else{
-        respuesta.statuscode = 404;
-        respuesta.end('Recurso no encontrdo')
+// Função para servir arquivos
+const servirArquivo = async (resposta, caminho) => {
+    try {
+        const dados = await fsp.readFile(caminho);
+        resposta.writeHead(200);
+        resposta.end(dados);
+    } catch (erro) {
+        console.error("Erro ao servir arquivo:", erro);
+        resposta.writeHead(500);
+        resposta.end('Erro interno do servidor');
     }
-    // respuesta.end('Hola AW2')
-})
+};
 
-servidor.listen(PUERTO,()=>{
-    console.log(`Servidor ejecutandose en http://localhost:${PUERTO}`);
-})
+// Função para lidar com as requisições
+const servidor = http.createServer(async (requisicao, resposta) => {
+    try {
+        let caminhoArquivo;
+
+        // Rota raiz ou index.html
+        if (requisicao.url === '/' || requisicao.url === '/index.html') {
+            caminhoArquivo = path.join(raizDoSite, 'index.html');
+        }
+        // Rota para servir o archivo productos.json
+        else if (requisicao.url === '/productos') {
+            caminhoArquivo = path.join(raizDosProdutos, 'productos.json');
+        }
+        // Outras rotas
+        else {
+            caminhoArquivo = path.join(raizDoSite, requisicao.url);
+        }
+
+        // Servir o arquivo
+        await servirArquivo(resposta, caminhoArquivo);
+    } catch (erro) {
+        console.error("Erro na gestão de requisições:", erro);
+        resposta.writeHead(500);
+        resposta.end('Erro interno do servidor');
+    }
+});
+
+// Iniciar o servidor
+servidor.listen(PORTA, () => {
+    console.log(`Servidor em execução em http://localhost:${PORTA}`);
+});
+

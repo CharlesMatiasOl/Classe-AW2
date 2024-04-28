@@ -3,9 +3,31 @@
     font-size: 18px;
     color: #fff;
 }
+
+/* Estilos generales */
 body {
-    background: #333;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #005f8b;
 }
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos para el encabezado */
+h1 {
+    text-align: center;
+    color: #ffffff;
+}
+
+/* Estilos para la imagen */
 img {
-    width: 100%;
+    display: block;
+    margin: 0 auto;
+    max-width: 60%;
+    height: auto;
 }
